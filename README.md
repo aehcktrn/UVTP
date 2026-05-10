@@ -15,6 +15,7 @@ Instead of trusting the audio stream, UVTP generates a hardware-backed cryptogra
 ## How it work
 
 sequenceDiagram
+
     participant A as 📱 Caller (Alice)
     participant R as 🌐 UVTP Relay
     participant B as 📱 Callee (Bob)
