@@ -49,7 +49,7 @@ Freshness: Is the proof recent (less than 10 seconds)? If a proof is reused 5 mi
 
 ## How it work
 
-sequence_diagram
+sequenceDiagram
     participant Caller as 📱 Caller (Alice)
     participant Relay as 🌐 UVTP Relay
     participant Callee as 📱 Callee (Bob)
