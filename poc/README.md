@@ -47,6 +47,41 @@ Authenticity: Does the signature match the caller's public key?
 
 Freshness: Is the proof recent (less than 10 seconds)? If a proof is reused 5 minutes later, it is rejected.
 
+## How it work
+
+sequence_diagram
+    participant Caller as 📱 Caller (Alice)
+    participant Relay as 🌐 UVTP Relay
+    participant Callee as 📱 Callee (Bob)
+    participant PSTN as 📞 Telecom Network (Voice)
+
+    Note over Caller: 1. Start Call & Generate Proof
+    Caller->>Relay: POST /proof (Signed JSON + Target Hash)
+    
+    Note over Caller, PSTN: 2. Voice path established
+    Caller->>PSTN: Initiate Voice Call
+    PSTN->>Callee: Incoming Call...
+
+    Note over Callee: 3. Fetch & Verify
+    Callee->>Relay: GET /proof (for incoming caller DID)
+    Relay-->>Callee: Returns Signed Call-Proof
+    
+    Note over Callee: 4. Cryptographic Validation
+    Callee->>Callee: Check Signature, IAT & Nonce
+    
+    Note over Callee: 5. Trust UI
+    Callee-->>Callee: Display ✅ TRUST-BADGE
+
+### The UVTP Handshake:
+
+**Generation**: The caller’s device signs a Call-Proof using an Ed25519 key secured in the Secure Enclave.
+
+**Signaling**: The proof is sent to a decentralized UVTP Relay before the call signal reaches the target.
+
+**Validation**: Upon receiving the call, the callee's device fetches the proof via its data connection (independent of the voice channel).
+
+**Certification**: The identity is verified locally on the device. If the math checks out, the user sees a Trust-Badge on the dialer UI.
+
 ## ⚠️ Limitations
 This is a simulated workflow. In a real-world scenario, the Call-Proof would be transmitted via a decentralized relay network (UVTP-Provider).
 
