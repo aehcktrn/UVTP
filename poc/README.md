@@ -49,6 +49,7 @@ Freshness: Is the proof recent (less than 10 seconds)? If a proof is reused 5 mi
 
 ## How it work
 
+```mermaid
 sequenceDiagram
     participant A as 📱 Caller (Alice)
     participant R as 🌐 UVTP Relay
@@ -71,7 +72,7 @@ sequenceDiagram
     
     Note over B: 5. Trust UI
     B-->>B: Display ✅ TRUST-BADGE
-
+```
 ### The UVTP Handshake:
 
 **Generation**: The caller’s device signs a Call-Proof using an Ed25519 key secured in the Secure Enclave.
