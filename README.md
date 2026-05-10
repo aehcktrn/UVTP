@@ -15,27 +15,27 @@ Instead of trusting the audio stream, UVTP generates a hardware-backed cryptogra
 ## How it work
 
 sequenceDiagram
-    participant Caller as 📱 Caller (Alice)
-    participant Relay as 🌐 UVTP Relay
-    participant Callee as 📱 Callee (Bob)
-    participant PSTN as 📞 Telecom Network (Voice)
+    participant A as 📱 Caller (Alice)
+    participant R as 🌐 UVTP Relay
+    participant B as 📱 Callee (Bob)
+    participant T as 📞 Telecom (Voice)
 
-    Note over Caller: 1. Start Call & Generate Proof
-    Caller->>Relay: POST /proof (Signed JSON + Target Hash)
+    Note over A: 1. Sign Proof (Ed25519)
+    A->>R: POST /proof (Signed JSON)
     
-    Note over Caller, PSTN: 2. Voice path established
-    Caller->>PSTN: Initiate Voice Call
-    PSTN->>Callee: Incoming Call...
+    Note over A, T: 2. Voice path established
+    A->>T: Initiate Voice Call
+    T->>B: Incoming Call...
 
-    Note over Callee: 3. Fetch & Verify
-    Callee->>Relay: GET /proof (for incoming caller DID)
-    Relay-->>Callee: Returns Signed Call-Proof
+    Note over B: 3. Fetch & Verify
+    B->>R: GET /proof (for Caller DID)
+    R-->>B: Signed Call-Proof
     
-    Note over Callee: 4. Cryptographic Validation
-    Callee->>Callee: Check Signature, IAT & Nonce
+    Note over B: 4. Local Validation
+    B->>B: Check Signature, IAT & Nonce
     
-    Note over Callee: 5. Trust UI
-    Callee-->>Callee: Display ✅ TRUST-BADGE
+    Note over B: 5. Trust UI
+    B-->>B: Display ✅ TRUST-BADGE
 
 ### The UVTP Handshake:
 
