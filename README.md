@@ -14,6 +14,7 @@ Instead of trusting the audio stream, UVTP generates a hardware-backed cryptogra
 
 ## How it work
 
+```mermaid
 sequenceDiagram
 
     participant A as 📱 Caller (Alice)
@@ -37,6 +38,7 @@ sequenceDiagram
     
     Note over B: 5. Trust UI
     B-->>B: Display ✅ TRUST-BADGE
+```
 
 ### The UVTP Handshake:
 
